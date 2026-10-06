@@ -1,0 +1,10 @@
+seed: 42
+chunksize: 500000
+train_end_fraction: 0.60
+validation_end_fraction: 0.80
+training_negative_sample: 300000
+anomaly_normal_sample: 100000
+target_alert_rate: 0.005
+dashboard_top_alerts: 5000
+dashboard_normal_sample: 1000
+

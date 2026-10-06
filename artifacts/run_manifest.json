@@ -1,0 +1,24 @@
+{
+  "created_at_utc": "2026-10-05T09:35:13.605352+00:00",
+  "python": "3.12.7",
+  "platform": "Windows-11-10.0.26100-SP0",
+  "dataset_sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+  "code_sha256": "112fe3477277b4e6b856dab6abf7ff197c74edc07dbf4abc563399a309ba047f",
+  "champion": "hist_gradient_boosting",
+  "config": "config\\modeling.yaml",
+  "packages": {
+    "numpy": "1.26.4",
+    "pandas": "2.2.2",
+    "scikit-learn": "1.5.1",
+    "scipy": "1.13.1",
+    "streamlit": "1.37.1",
+    "pydantic": "2.8.2",
+    "joblib": "1.4.2"
+  },
+  "commands": [
+    "python -m src.modeling --data data/raw/PS_20174392719_1491204439457_log.csv",
+    "python -m src.pipeline --cases 60",
+    "python scripts/evaluate_retrieval.py",
+    "python -m src.evaluation --provider mock"
+  ]
+}

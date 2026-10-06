@@ -1,0 +1,57 @@
+{
+  "source": "official_paySim",
+  "path": "C:\\Users\\29506\\.codex\\.chatgpt-projects\\g-p-6ac27233bf188191b875468d2475010e\\data\\raw\\PS_20174392719_1491204439457_log.csv",
+  "bytes": 493534783,
+  "sha256": "16910f90577b0d981bf8ff289714510bb89bc71bff7d3f220f024e287e4eea6b",
+  "rows": 6362620,
+  "fraud": 8213,
+  "fraud_rate": 0.001290820448180152,
+  "legacy_flagged": 16,
+  "step_min": 1,
+  "step_max": 743,
+  "transaction_types": {
+    "CASH_OUT": 2237500,
+    "PAYMENT": 2151495,
+    "CASH_IN": 1399284,
+    "TRANSFER": 532909,
+    "DEBIT": 41432
+  },
+  "missing_values": {
+    "step": 0,
+    "type": 0,
+    "amount": 0,
+    "nameOrig": 0,
+    "oldbalanceOrg": 0,
+    "newbalanceOrig": 0,
+    "nameDest": 0,
+    "oldbalanceDest": 0,
+    "newbalanceDest": 0,
+    "isFraud": 0,
+    "isFlaggedFraud": 0
+  },
+  "negative_amount_rows": 0,
+  "invalid_label_rows": 0,
+  "splits": {
+    "train": {
+      "step_start": 1,
+      "step_end": 281,
+      "rows": 3820599,
+      "fraud": 3193,
+      "fraud_rate": 0.000835732826187726
+    },
+    "validation": {
+      "step_start": 282,
+      "step_end": 355,
+      "rows": 1293285,
+      "fraud": 770,
+      "fraud_rate": 0.0005953830748829531
+    },
+    "test": {
+      "step_start": 356,
+      "step_end": 743,
+      "rows": 1248736,
+      "fraud": 4250,
+      "fraud_rate": 0.0034034415601055788
+    }
+  }
+}

@@ -1,0 +1,17 @@
+feature,importance_mean,importance_std
+amount_to_origin_balance,0.8873699062391932,0.009552815489289644
+remaining_origin_ratio,0.4708291319488953,0.01344823642631835
+type,0.18440725127462862,0.008335899197488707
+amount_log,0.021102749830127648,0.00031677846171458435
+amount_to_dest_balance,3.700743415417188e-17,5.233641528945917e-17
+oldbalance_org_log,0.0,0.0
+oldbalance_dest_log,0.0,0.0
+hour_sin,0.0,0.0
+hour_cos,0.0,0.0
+day,0.0,0.0
+origin_zero_balance,0.0,0.0
+dest_zero_balance,0.0,0.0
+dest_is_merchant,0.0,0.0
+is_transfer,0.0,0.0
+is_cash_out,0.0,0.0
+is_high_value,0.0,0.0

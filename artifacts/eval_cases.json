@@ -1,0 +1,4723 @@
+[
+  {
+    "case_id": "CASE-009734",
+    "transaction": {
+      "step": 646,
+      "type": "TRANSFER",
+      "amount": 399045.1,
+      "nameOrig": "C724693370",
+      "oldbalanceOrg": 10399045.0,
+      "newbalanceOrig": 10399045.0,
+      "nameDest": "C1909486199",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 50,
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 399045.1,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_ANOMALY",
+          "description": "Isolation Forest score exceeds review threshold",
+          "score_floor": 50,
+          "evidence": {
+            "anomaly_score": 0.165492,
+            "threshold": 0.144942
+          },
+          "policy_id": "POL-005"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 4.562e-05,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.5005,
+        "anomaly_score": 0.165492,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-005",
+        "title": "Anomaly escalation",
+        "text": "Transactions above the anomaly threshold require analyst review even when the supervised model is uncertain."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-009734",
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_ANOMALY"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-005"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FN",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-006774",
+    "transaction": {
+      "step": 373,
+      "type": "CASH_OUT",
+      "amount": 432034.94,
+      "nameOrig": "C777295424",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C2052998626",
+      "oldbalanceDest": 828650.7,
+      "newbalanceDest": 1260685.6
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 432034.94,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 432034.94,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.00154791,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.00154791,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 16.9821,
+        "anomaly_score": 0.008936,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-006774",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-009050",
+    "transaction": {
+      "step": 399,
+      "type": "CASH_OUT",
+      "amount": 104826.04,
+      "nameOrig": "C475092059",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C2020860569",
+      "oldbalanceDest": 358811.53,
+      "newbalanceDest": 463637.56
+    },
+    "assessment": {
+      "risk_score": 71,
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 104826.04,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 9.629e-05,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 9.629e-05,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 1.0563,
+        "anomaly_score": -0.03835,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-009050",
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-006606",
+    "transaction": {
+      "step": 397,
+      "type": "CASH_OUT",
+      "amount": 274386.94,
+      "nameOrig": "C1771140723",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1377451948",
+      "oldbalanceDest": 626324.7,
+      "newbalanceDest": 900711.6
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 274386.94,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 274386.94,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.00217249,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.00217249,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 23.8344,
+        "anomaly_score": -0.001381,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-006606",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-005866",
+    "transaction": {
+      "step": 393,
+      "type": "CASH_OUT",
+      "amount": 384052.75,
+      "nameOrig": "C1755949187",
+      "oldbalanceOrg": 378688.62,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C922778578",
+      "oldbalanceDest": 1095022.1,
+      "newbalanceDest": 1479074.9
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 384052.75,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 384052.75,
+            "oldbalanceOrg": 378688.62
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.00395265,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.00395265,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 43.3645,
+        "anomaly_score": 0.052125,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-005866",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-009086",
+    "transaction": {
+      "step": 375,
+      "type": "CASH_OUT",
+      "amount": 113589.67,
+      "nameOrig": "C2087748554",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C269065551",
+      "oldbalanceDest": 423611.1,
+      "newbalanceDest": 537200.75
+    },
+    "assessment": {
+      "risk_score": 71,
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 113589.67,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 9.629e-05,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 9.629e-05,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 1.0563,
+        "anomaly_score": -0.038592,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-009086",
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-004282",
+    "transaction": {
+      "step": 403,
+      "type": "CASH_OUT",
+      "amount": 167608.3,
+      "nameOrig": "C70631215",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1088140923",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 167608.3
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 167608.3,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.4697289,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.4697289,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 5153.3872,
+        "anomaly_score": 0.068398,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-004282",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-007908",
+    "transaction": {
+      "step": 374,
+      "type": "CASH_OUT",
+      "amount": 333136.6,
+      "nameOrig": "C292821616",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1275188201",
+      "oldbalanceDest": 641301.3,
+      "newbalanceDest": 974437.9
+    },
+    "assessment": {
+      "risk_score": 78,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 333136.6,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 333136.6,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.00015965,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.00015965,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 1.7515,
+        "anomaly_score": 0.001246,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-007908",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-008594",
+    "transaction": {
+      "step": 398,
+      "type": "CASH_OUT",
+      "amount": 322905.94,
+      "nameOrig": "C1394701250",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C490662949",
+      "oldbalanceDest": 1633527.8,
+      "newbalanceDest": 1956433.6
+    },
+    "assessment": {
+      "risk_score": 72,
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 322905.94,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 322905.94,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.00010668,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.00010668,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 1.1704,
+        "anomaly_score": -0.008393,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-008594",
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-005448",
+    "transaction": {
+      "step": 399,
+      "type": "CASH_OUT",
+      "amount": 169370.38,
+      "nameOrig": "C1708872390",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1347457395",
+      "oldbalanceDest": 895745.2,
+      "newbalanceDest": 1065115.6
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 169370.38,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.00762654,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.00762654,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 83.6707,
+        "anomaly_score": -0.036594,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-005448",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-008058",
+    "transaction": {
+      "step": 503,
+      "type": "TRANSFER",
+      "amount": 334297.75,
+      "nameOrig": "C1388678167",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C442576921",
+      "oldbalanceDest": 1682037.5,
+      "newbalanceDest": 2016335.2
+    },
+    "assessment": {
+      "risk_score": 76,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 334297.75,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 334297.75,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.00013993,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.00013993,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 1.5352,
+        "anomaly_score": 0.08402,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-008058",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-006633",
+    "transaction": {
+      "step": 373,
+      "type": "CASH_OUT",
+      "amount": 66241.58,
+      "nameOrig": "C2145350053",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1360696955",
+      "oldbalanceDest": 150584.5,
+      "newbalanceDest": 216826.08
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 66241.58,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.00205503,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.00205503,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 22.5457,
+        "anomaly_score": -0.014716,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-006633",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-007459",
+    "transaction": {
+      "step": 540,
+      "type": "CASH_OUT",
+      "amount": 14912.67,
+      "nameOrig": "C148682834",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C383569889",
+      "oldbalanceDest": 15279.67,
+      "newbalanceDest": 30192.34
+    },
+    "assessment": {
+      "risk_score": 97,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 14912.67,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.00057302,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.00057302,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 6.2866,
+        "anomaly_score": 0.028657,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-007459",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-009354",
+    "transaction": {
+      "step": 589,
+      "type": "CASH_OUT",
+      "amount": 112869.9,
+      "nameOrig": "C1537086346",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C402073991",
+      "oldbalanceDest": 308428.12,
+      "newbalanceDest": 421298.06
+    },
+    "assessment": {
+      "risk_score": 70,
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 112869.9,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 9.291e-05,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 9.291e-05,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 1.0193,
+        "anomaly_score": -0.027014,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-009354",
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-009007",
+    "transaction": {
+      "step": 383,
+      "type": "CASH_OUT",
+      "amount": 317016.47,
+      "nameOrig": "C1351708127",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C236905274",
+      "oldbalanceDest": 1653829.6,
+      "newbalanceDest": 1970846.0
+    },
+    "assessment": {
+      "risk_score": 71,
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 317016.47,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 317016.47,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 9.661e-05,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 9.661e-05,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 1.0599,
+        "anomaly_score": 0.020751,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-009007",
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-007391",
+    "transaction": {
+      "step": 373,
+      "type": "CASH_OUT",
+      "amount": 44734.43,
+      "nameOrig": "C1485080443",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1691351305",
+      "oldbalanceDest": 101306.62,
+      "newbalanceDest": 146041.05
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 44734.43,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.00072366,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.00072366,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 7.9392,
+        "anomaly_score": -0.007949,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-007391",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-010247",
+    "transaction": {
+      "step": 396,
+      "type": "PAYMENT",
+      "amount": 6639.64,
+      "nameOrig": "C1622963158",
+      "oldbalanceOrg": 259.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "M1097879303",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 16,
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flags": [],
+      "model_signals": {
+        "calibrated_model_score": 4.49e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.0492,
+        "anomaly_score": 0.023079,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [],
+    "gold": {
+      "case_id": "CASE-010247",
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flag_codes": [],
+      "policy_ids": []
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-010463",
+    "transaction": {
+      "step": 403,
+      "type": "CASH_IN",
+      "amount": 259723.27,
+      "nameOrig": "C2076572120",
+      "oldbalanceOrg": 4320602.5,
+      "newbalanceOrig": 4580326.0,
+      "nameDest": "C917158797",
+      "oldbalanceDest": 930503.5,
+      "newbalanceDest": 670780.25
+    },
+    "assessment": {
+      "risk_score": 35,
+      "risk_label": "MEDIUM",
+      "recommended_action": "queue_for_review",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 259723.27,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 4.02e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.0441,
+        "anomaly_score": 0.024205,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-010463",
+      "risk_label": "MEDIUM",
+      "recommended_action": "queue_for_review",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE"
+      ],
+      "policy_ids": [
+        "POL-001"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-010466",
+    "transaction": {
+      "step": 380,
+      "type": "CASH_IN",
+      "amount": 82580.98,
+      "nameOrig": "C988058410",
+      "oldbalanceOrg": 461290.0,
+      "newbalanceOrig": 543871.0,
+      "nameDest": "C157265911",
+      "oldbalanceDest": 304206.34,
+      "newbalanceDest": 221625.34
+    },
+    "assessment": {
+      "risk_score": 15,
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flags": [],
+      "model_signals": {
+        "calibrated_model_score": 4.02e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.0441,
+        "anomaly_score": 0.011622,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [],
+    "gold": {
+      "case_id": "CASE-010466",
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flag_codes": [],
+      "policy_ids": []
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-010386",
+    "transaction": {
+      "step": 379,
+      "type": "TRANSFER",
+      "amount": 386203.66,
+      "nameOrig": "C2073056211",
+      "oldbalanceOrg": 32283.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C336461886",
+      "oldbalanceDest": 4579294.0,
+      "newbalanceDest": 4965497.5
+    },
+    "assessment": {
+      "risk_score": 45,
+      "risk_label": "MEDIUM",
+      "recommended_action": "queue_for_review",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 386203.66,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 386203.66,
+            "oldbalanceOrg": 32283.0
+          },
+          "policy_id": "POL-002"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 4.4e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.0482,
+        "anomaly_score": 0.083681,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-010386",
+      "risk_label": "MEDIUM",
+      "recommended_action": "queue_for_review",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-010137",
+    "transaction": {
+      "step": 378,
+      "type": "PAYMENT",
+      "amount": 26823.25,
+      "nameOrig": "C1533150693",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "M2003719350",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 17,
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flags": [],
+      "model_signals": {
+        "calibrated_model_score": 5.48e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.0601,
+        "anomaly_score": 0.024239,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [],
+    "gold": {
+      "case_id": "CASE-010137",
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flag_codes": [],
+      "policy_ids": []
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-010404",
+    "transaction": {
+      "step": 590,
+      "type": "CASH_IN",
+      "amount": 222790.27,
+      "nameOrig": "C726248608",
+      "oldbalanceOrg": 20021.0,
+      "newbalanceOrig": 242811.27,
+      "nameDest": "C338102119",
+      "oldbalanceDest": 477950.6,
+      "newbalanceDest": 255160.33
+    },
+    "assessment": {
+      "risk_score": 35,
+      "risk_label": "MEDIUM",
+      "recommended_action": "queue_for_review",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 222790.27,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 4.28e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.047,
+        "anomaly_score": 0.01169,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-010404",
+      "risk_label": "MEDIUM",
+      "recommended_action": "queue_for_review",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE"
+      ],
+      "policy_ids": [
+        "POL-001"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-010352",
+    "transaction": {
+      "step": 400,
+      "type": "PAYMENT",
+      "amount": 3056.38,
+      "nameOrig": "C1701309958",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "M1859057597",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 15,
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flags": [],
+      "model_signals": {
+        "calibrated_model_score": 4.42e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.0484,
+        "anomaly_score": 0.014956,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [],
+    "gold": {
+      "case_id": "CASE-010352",
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flag_codes": [],
+      "policy_ids": []
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-010239",
+    "transaction": {
+      "step": 496,
+      "type": "PAYMENT",
+      "amount": 11797.84,
+      "nameOrig": "C74593587",
+      "oldbalanceOrg": 8913.52,
+      "newbalanceOrig": 0.0,
+      "nameDest": "M219798760",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 16,
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flags": [],
+      "model_signals": {
+        "calibrated_model_score": 4.49e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.0492,
+        "anomaly_score": -0.007353,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [],
+    "gold": {
+      "case_id": "CASE-010239",
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flag_codes": [],
+      "policy_ids": []
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-010585",
+    "transaction": {
+      "step": 359,
+      "type": "PAYMENT",
+      "amount": 1824.87,
+      "nameOrig": "C1058359854",
+      "oldbalanceOrg": 71784.0,
+      "newbalanceOrig": 69959.13,
+      "nameDest": "M366324382",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 14,
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flags": [],
+      "model_signals": {
+        "calibrated_model_score": 3.84e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.0422,
+        "anomaly_score": 0.021156,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [],
+    "gold": {
+      "case_id": "CASE-010585",
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flag_codes": [],
+      "policy_ids": []
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-009862",
+    "transaction": {
+      "step": 359,
+      "type": "CASH_IN",
+      "amount": 184861.6,
+      "nameOrig": "C1424398216",
+      "oldbalanceOrg": 1329078.6,
+      "newbalanceOrig": 1513940.2,
+      "nameDest": "C1997531550",
+      "oldbalanceDest": 2567318.8,
+      "newbalanceDest": 2382457.0
+    },
+    "assessment": {
+      "risk_score": 27,
+      "risk_label": "MEDIUM",
+      "recommended_action": "queue_for_review",
+      "red_flags": [],
+      "model_signals": {
+        "calibrated_model_score": 1.309e-05,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.1437,
+        "anomaly_score": 0.025413,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [],
+    "gold": {
+      "case_id": "CASE-009862",
+      "risk_label": "MEDIUM",
+      "recommended_action": "queue_for_review",
+      "red_flag_codes": [],
+      "policy_ids": []
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-010537",
+    "transaction": {
+      "step": 394,
+      "type": "CASH_IN",
+      "amount": 176659.23,
+      "nameOrig": "C491423059",
+      "oldbalanceOrg": 7743808.5,
+      "newbalanceOrig": 7920468.0,
+      "nameDest": "C1708860303",
+      "oldbalanceDest": 589229.0,
+      "newbalanceDest": 412569.72
+    },
+    "assessment": {
+      "risk_score": 15,
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flags": [],
+      "model_signals": {
+        "calibrated_model_score": 3.96e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.0435,
+        "anomaly_score": -0.00212,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [],
+    "gold": {
+      "case_id": "CASE-010537",
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flag_codes": [],
+      "policy_ids": []
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-009802",
+    "transaction": {
+      "step": 398,
+      "type": "CASH_OUT",
+      "amount": 45837.88,
+      "nameOrig": "C683124405",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1535683776",
+      "oldbalanceDest": 1377517.2,
+      "newbalanceDest": 1423355.1
+    },
+    "assessment": {
+      "risk_score": 45,
+      "risk_label": "MEDIUM",
+      "recommended_action": "queue_for_review",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 45837.88,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 1.985e-05,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.2178,
+        "anomaly_score": -0.029617,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-009802",
+      "risk_label": "MEDIUM",
+      "recommended_action": "queue_for_review",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN"
+      ],
+      "policy_ids": [
+        "POL-002"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-010362",
+    "transaction": {
+      "step": 404,
+      "type": "PAYMENT",
+      "amount": 6297.3,
+      "nameOrig": "C661677039",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "M1370331124",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 15,
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flags": [],
+      "model_signals": {
+        "calibrated_model_score": 4.42e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.0484,
+        "anomaly_score": 0.023267,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [],
+    "gold": {
+      "case_id": "CASE-010362",
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flag_codes": [],
+      "policy_ids": []
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-010699",
+    "transaction": {
+      "step": 567,
+      "type": "PAYMENT",
+      "amount": 8382.15,
+      "nameOrig": "C156458374",
+      "oldbalanceOrg": 208883.56,
+      "newbalanceOrig": 200501.4,
+      "nameDest": "M1292350227",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 14,
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flags": [],
+      "model_signals": {
+        "calibrated_model_score": 3.84e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.0422,
+        "anomaly_score": -0.025171,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [],
+    "gold": {
+      "case_id": "CASE-010699",
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flag_codes": [],
+      "policy_ids": []
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-010664",
+    "transaction": {
+      "step": 617,
+      "type": "PAYMENT",
+      "amount": 15563.58,
+      "nameOrig": "C1322155985",
+      "oldbalanceOrg": 31902.0,
+      "newbalanceOrig": 16338.42,
+      "nameDest": "M830311513",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 14,
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flags": [],
+      "model_signals": {
+        "calibrated_model_score": 3.84e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.0422,
+        "anomaly_score": -0.009128,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [],
+    "gold": {
+      "case_id": "CASE-010664",
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flag_codes": [],
+      "policy_ids": []
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-002269",
+    "transaction": {
+      "step": 606,
+      "type": "CASH_OUT",
+      "amount": 2582642.2,
+      "nameOrig": "C989697555",
+      "oldbalanceOrg": 2582642.2,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C294901618",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 2582642.2
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 2582642.2,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 2582642.2,
+            "oldbalanceOrg": 2582642.2
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_OFF_HOURS",
+          "description": "Risk-prone transfer type occurred off-hours",
+          "score_floor": 20,
+          "evidence": {
+            "hour": 5,
+            "type": "CASH_OUT"
+          },
+          "policy_id": "POL-003"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999145,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999145,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.888,
+        "anomaly_score": 0.139541,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-003",
+        "title": "Off-hours activity",
+        "text": "Transfers or cash-outs between midnight and 05:59 receive additional scrutiny."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-002269",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_OFF_HOURS",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-003",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-001192",
+    "transaction": {
+      "step": 461,
+      "type": "TRANSFER",
+      "amount": 226689.16,
+      "nameOrig": "C1210027591",
+      "oldbalanceOrg": 226689.16,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C673284647",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 226689.16,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 226689.16,
+            "oldbalanceOrg": 226689.16
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_OFF_HOURS",
+          "description": "Risk-prone transfer type occurred off-hours",
+          "score_floor": 20,
+          "evidence": {
+            "hour": 4,
+            "type": "TRANSFER"
+          },
+          "policy_id": "POL-003"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999145,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        },
+        {
+          "code": "RF_ANOMALY",
+          "description": "Isolation Forest score exceeds review threshold",
+          "score_floor": 50,
+          "evidence": {
+            "anomaly_score": 0.168572,
+            "threshold": 0.144942
+          },
+          "policy_id": "POL-005"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999145,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.888,
+        "anomaly_score": 0.168572,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-003",
+        "title": "Off-hours activity",
+        "text": "Transfers or cash-outs between midnight and 05:59 receive additional scrutiny."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      },
+      {
+        "id": "POL-005",
+        "title": "Anomaly escalation",
+        "text": "Transactions above the anomaly threshold require analyst review even when the supervised model is uncertain."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-001192",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_OFF_HOURS",
+        "RF_MODEL_ALERT",
+        "RF_ANOMALY"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-003",
+        "POL-004",
+        "POL-005"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-002623",
+    "transaction": {
+      "step": 641,
+      "type": "TRANSFER",
+      "amount": 115599.26,
+      "nameOrig": "C615237336",
+      "oldbalanceOrg": 115599.26,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C418577182",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 115599.26,
+            "oldbalanceOrg": 115599.26
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999145,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999145,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.888,
+        "anomaly_score": 0.124004,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-002623",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-003048",
+    "transaction": {
+      "step": 374,
+      "type": "CASH_OUT",
+      "amount": 243747.83,
+      "nameOrig": "C962574299",
+      "oldbalanceOrg": 243747.83,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1896575242",
+      "oldbalanceDest": 972569.6,
+      "newbalanceDest": 1216317.4
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 243747.83,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 243747.83,
+            "oldbalanceOrg": 243747.83
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999015,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999015,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.8738,
+        "anomaly_score": 0.0197,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-003048",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-000120",
+    "transaction": {
+      "step": 735,
+      "type": "CASH_OUT",
+      "amount": 92735.71,
+      "nameOrig": "C786761311",
+      "oldbalanceOrg": 92735.71,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C570188819",
+      "oldbalanceDest": 921583.3,
+      "newbalanceDest": 1014319.0
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 92735.71,
+            "oldbalanceOrg": 92735.71
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999157,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999157,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.8894,
+        "anomaly_score": -0.007272,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-000120",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-002572",
+    "transaction": {
+      "step": 581,
+      "type": "CASH_OUT",
+      "amount": 801763.5,
+      "nameOrig": "C357089378",
+      "oldbalanceOrg": 801763.5,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C566073834",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 801763.5
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 801763.5,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 801763.5,
+            "oldbalanceOrg": 801763.5
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_OFF_HOURS",
+          "description": "Risk-prone transfer type occurred off-hours",
+          "score_floor": 20,
+          "evidence": {
+            "hour": 4,
+            "type": "CASH_OUT"
+          },
+          "policy_id": "POL-003"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999145,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999145,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.888,
+        "anomaly_score": 0.13548,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-003",
+        "title": "Off-hours activity",
+        "text": "Transfers or cash-outs between midnight and 05:59 receive additional scrutiny."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-002572",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_OFF_HOURS",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-003",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-001454",
+    "transaction": {
+      "step": 455,
+      "type": "TRANSFER",
+      "amount": 332.36,
+      "nameOrig": "C1572407780",
+      "oldbalanceOrg": 332.36,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C892688622",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 332.36,
+            "oldbalanceOrg": 332.36
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999145,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        },
+        {
+          "code": "RF_ANOMALY",
+          "description": "Isolation Forest score exceeds review threshold",
+          "score_floor": 50,
+          "evidence": {
+            "anomaly_score": 0.166582,
+            "threshold": 0.144942
+          },
+          "policy_id": "POL-005"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999145,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.888,
+        "anomaly_score": 0.166582,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      },
+      {
+        "id": "POL-005",
+        "title": "Anomaly escalation",
+        "text": "Transactions above the anomaly threshold require analyst review even when the supervised model is uncertain."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-001454",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT",
+        "RF_ANOMALY"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-004",
+        "POL-005"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-004045",
+    "transaction": {
+      "step": 577,
+      "type": "CASH_OUT",
+      "amount": 113687.0,
+      "nameOrig": "C825596697",
+      "oldbalanceOrg": 113687.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C751692069",
+      "oldbalanceDest": 737437.75,
+      "newbalanceDest": 851124.75
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 113687.0,
+            "oldbalanceOrg": 113687.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_OFF_HOURS",
+          "description": "Risk-prone transfer type occurred off-hours",
+          "score_floor": 20,
+          "evidence": {
+            "hour": 0,
+            "type": "CASH_OUT"
+          },
+          "policy_id": "POL-003"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99998853,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99998853,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.8561,
+        "anomaly_score": 0.023161,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-003",
+        "title": "Off-hours activity",
+        "text": "Transfers or cash-outs between midnight and 05:59 receive additional scrutiny."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-004045",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_OFF_HOURS",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-003",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-002970",
+    "transaction": {
+      "step": 425,
+      "type": "CASH_OUT",
+      "amount": 460434.47,
+      "nameOrig": "C913609699",
+      "oldbalanceOrg": 460434.47,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1256545087",
+      "oldbalanceDest": 1046172.5,
+      "newbalanceDest": 1506607.0
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 460434.47,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 460434.47,
+            "oldbalanceOrg": 460434.47
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999015,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999015,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.8738,
+        "anomaly_score": 0.027775,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-002970",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-000561",
+    "transaction": {
+      "step": 564,
+      "type": "TRANSFER",
+      "amount": 320977.5,
+      "nameOrig": "C2084614974",
+      "oldbalanceOrg": 320977.5,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C462703095",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 320977.5,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 320977.5,
+            "oldbalanceOrg": 320977.5
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999145,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        },
+        {
+          "code": "RF_ANOMALY",
+          "description": "Isolation Forest score exceeds review threshold",
+          "score_floor": 50,
+          "evidence": {
+            "anomaly_score": 0.147909,
+            "threshold": 0.144942
+          },
+          "policy_id": "POL-005"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999145,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.888,
+        "anomaly_score": 0.147909,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      },
+      {
+        "id": "POL-005",
+        "title": "Anomaly escalation",
+        "text": "Transactions above the anomaly threshold require analyst review even when the supervised model is uncertain."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-000561",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT",
+        "RF_ANOMALY"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004",
+        "POL-005"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-000810",
+    "transaction": {
+      "step": 422,
+      "type": "TRANSFER",
+      "amount": 2897907.8,
+      "nameOrig": "C791144032",
+      "oldbalanceOrg": 2897907.8,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C220917554",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 2897907.8,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 2897907.8,
+            "oldbalanceOrg": 2897907.8
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999145,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        },
+        {
+          "code": "RF_ANOMALY",
+          "description": "Isolation Forest score exceeds review threshold",
+          "score_floor": 50,
+          "evidence": {
+            "anomaly_score": 0.159971,
+            "threshold": 0.144942
+          },
+          "policy_id": "POL-005"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999145,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.888,
+        "anomaly_score": 0.159971,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      },
+      {
+        "id": "POL-005",
+        "title": "Anomaly escalation",
+        "text": "Transactions above the anomaly threshold require analyst review even when the supervised model is uncertain."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-000810",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT",
+        "RF_ANOMALY"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004",
+        "POL-005"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-000838",
+    "transaction": {
+      "step": 394,
+      "type": "TRANSFER",
+      "amount": 201247.25,
+      "nameOrig": "C1655225752",
+      "oldbalanceOrg": 201247.25,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1949844658",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 201247.25,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 201247.25,
+            "oldbalanceOrg": 201247.25
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999145,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        },
+        {
+          "code": "RF_ANOMALY",
+          "description": "Isolation Forest score exceeds review threshold",
+          "score_floor": 50,
+          "evidence": {
+            "anomaly_score": 0.152818,
+            "threshold": 0.144942
+          },
+          "policy_id": "POL-005"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999145,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.888,
+        "anomaly_score": 0.152818,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      },
+      {
+        "id": "POL-005",
+        "title": "Anomaly escalation",
+        "text": "Transactions above the anomaly threshold require analyst review even when the supervised model is uncertain."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-000838",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT",
+        "RF_ANOMALY"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004",
+        "POL-005"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-003016",
+    "transaction": {
+      "step": 695,
+      "type": "CASH_OUT",
+      "amount": 799123.56,
+      "nameOrig": "C999561448",
+      "oldbalanceOrg": 799123.56,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1038753033",
+      "oldbalanceDest": 5474293.0,
+      "newbalanceDest": 6273416.5
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 799123.56,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 799123.56,
+            "oldbalanceOrg": 799123.56
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999015,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999015,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.8738,
+        "anomaly_score": 0.0654,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-003016",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-001178",
+    "transaction": {
+      "step": 380,
+      "type": "TRANSFER",
+      "amount": 259820.39,
+      "nameOrig": "C160893459",
+      "oldbalanceOrg": 259820.39,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1231260699",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 259820.39,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 259820.39,
+            "oldbalanceOrg": 259820.39
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999145,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        },
+        {
+          "code": "RF_ANOMALY",
+          "description": "Isolation Forest score exceeds review threshold",
+          "score_floor": 50,
+          "evidence": {
+            "anomaly_score": 0.15162,
+            "threshold": 0.144942
+          },
+          "policy_id": "POL-005"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999145,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.888,
+        "anomaly_score": 0.15162,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      },
+      {
+        "id": "POL-005",
+        "title": "Anomaly escalation",
+        "text": "Transactions above the anomaly threshold require analyst review even when the supervised model is uncertain."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-001178",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT",
+        "RF_ANOMALY"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004",
+        "POL-005"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-002927",
+    "transaction": {
+      "step": 481,
+      "type": "CASH_OUT",
+      "amount": 305183.84,
+      "nameOrig": "C1505496365",
+      "oldbalanceOrg": 305183.84,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1263395993",
+      "oldbalanceDest": 470854.16,
+      "newbalanceDest": 776038.0
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 305183.84,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 305183.84,
+            "oldbalanceOrg": 305183.84
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_OFF_HOURS",
+          "description": "Risk-prone transfer type occurred off-hours",
+          "score_floor": 20,
+          "evidence": {
+            "hour": 0,
+            "type": "CASH_OUT"
+          },
+          "policy_id": "POL-003"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999015,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999015,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.8738,
+        "anomaly_score": 0.046945,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-003",
+        "title": "Off-hours activity",
+        "text": "Transfers or cash-outs between midnight and 05:59 receive additional scrutiny."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-002927",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_OFF_HOURS",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-003",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-010101",
+    "transaction": {
+      "step": 381,
+      "type": "CASH_OUT",
+      "amount": 205413.81,
+      "nameOrig": "C344774471",
+      "oldbalanceOrg": 176929.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1174538057",
+      "oldbalanceDest": 23124.83,
+      "newbalanceDest": 228538.66
+    },
+    "assessment": {
+      "risk_score": 45,
+      "risk_label": "MEDIUM",
+      "recommended_action": "queue_for_review",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 205413.81,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 205413.81,
+            "oldbalanceOrg": 176929.0
+          },
+          "policy_id": "POL-002"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 5.56e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.061,
+        "anomaly_score": 0.075137,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-010101",
+      "risk_label": "MEDIUM",
+      "recommended_action": "queue_for_review",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-003036",
+    "transaction": {
+      "step": 625,
+      "type": "CASH_OUT",
+      "amount": 1040303.44,
+      "nameOrig": "C605725215",
+      "oldbalanceOrg": 1040303.44,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C774151171",
+      "oldbalanceDest": 1794359.1,
+      "newbalanceDest": 2834662.5
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 1040303.44,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 1040303.44,
+            "oldbalanceOrg": 1040303.44
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_OFF_HOURS",
+          "description": "Risk-prone transfer type occurred off-hours",
+          "score_floor": 20,
+          "evidence": {
+            "hour": 0,
+            "type": "CASH_OUT"
+          },
+          "policy_id": "POL-003"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999015,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999015,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.8738,
+        "anomaly_score": 0.069555,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-003",
+        "title": "Off-hours activity",
+        "text": "Transfers or cash-outs between midnight and 05:59 receive additional scrutiny."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-003036",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_OFF_HOURS",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-003",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-010426",
+    "transaction": {
+      "step": 356,
+      "type": "CASH_IN",
+      "amount": 51290.2,
+      "nameOrig": "C766088113",
+      "oldbalanceOrg": 11429309.0,
+      "newbalanceOrig": 11480599.0,
+      "nameDest": "C1658320911",
+      "oldbalanceDest": 240595.69,
+      "newbalanceDest": 189305.48
+    },
+    "assessment": {
+      "risk_score": 15,
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flags": [],
+      "model_signals": {
+        "calibrated_model_score": 4.07e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.0446,
+        "anomaly_score": 0.013605,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [],
+    "gold": {
+      "case_id": "CASE-010426",
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flag_codes": [],
+      "policy_ids": []
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-010400",
+    "transaction": {
+      "step": 372,
+      "type": "CASH_IN",
+      "amount": 216585.03,
+      "nameOrig": "C1865104107",
+      "oldbalanceOrg": 586.0,
+      "newbalanceOrig": 217171.03,
+      "nameDest": "C92052011",
+      "oldbalanceDest": 198808.1,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 35,
+      "risk_label": "MEDIUM",
+      "recommended_action": "queue_for_review",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 216585.03,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 4.35e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.0477,
+        "anomaly_score": 0.031153,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-010400",
+      "risk_label": "MEDIUM",
+      "recommended_action": "queue_for_review",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE"
+      ],
+      "policy_ids": [
+        "POL-001"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-010306",
+    "transaction": {
+      "step": 401,
+      "type": "PAYMENT",
+      "amount": 89.81,
+      "nameOrig": "C1397354419",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "M908801032",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 15,
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flags": [],
+      "model_signals": {
+        "calibrated_model_score": 4.42e-06,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 0.0484,
+        "anomaly_score": 0.070792,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [],
+    "gold": {
+      "case_id": "CASE-010306",
+      "risk_label": "LOW",
+      "recommended_action": "allow_with_monitoring",
+      "red_flag_codes": [],
+      "policy_ids": []
+    },
+    "metadata": {
+      "evaluation_outcome": "TN",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-001088",
+    "transaction": {
+      "step": 413,
+      "type": "CASH_OUT",
+      "amount": 786278.75,
+      "nameOrig": "C1989836964",
+      "oldbalanceOrg": 786278.75,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C457437086",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 786278.75
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 786278.75,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 786278.75,
+            "oldbalanceOrg": 786278.75
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_OFF_HOURS",
+          "description": "Risk-prone transfer type occurred off-hours",
+          "score_floor": 20,
+          "evidence": {
+            "hour": 4,
+            "type": "CASH_OUT"
+          },
+          "policy_id": "POL-003"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999145,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999145,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.888,
+        "anomaly_score": 0.13548,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-003",
+        "title": "Off-hours activity",
+        "text": "Transfers or cash-outs between midnight and 05:59 receive additional scrutiny."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-001088",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_OFF_HOURS",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-003",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-000347",
+    "transaction": {
+      "step": 502,
+      "type": "CASH_OUT",
+      "amount": 669536.75,
+      "nameOrig": "C776030932",
+      "oldbalanceOrg": 669536.75,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C407092830",
+      "oldbalanceDest": 178669.97,
+      "newbalanceDest": 848206.75
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 669536.75,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 669536.75,
+            "oldbalanceOrg": 669536.75
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999145,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999145,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.888,
+        "anomaly_score": 0.07072,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-000347",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-008213",
+    "transaction": {
+      "step": 397,
+      "type": "CASH_OUT",
+      "amount": 82146.69,
+      "nameOrig": "C1162607613",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C134473692",
+      "oldbalanceDest": 416319.34,
+      "newbalanceDest": 498466.03
+    },
+    "assessment": {
+      "risk_score": 74,
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 82146.69,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.00012372,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.00012372,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 1.3573,
+        "anomaly_score": -0.030521,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-008213",
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-006507",
+    "transaction": {
+      "step": 403,
+      "type": "CASH_OUT",
+      "amount": 24504.99,
+      "nameOrig": "C1949923330",
+      "oldbalanceOrg": 24325.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C656386197",
+      "oldbalanceDest": 1188642.8,
+      "newbalanceDest": 1213147.8
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 24504.99,
+            "oldbalanceOrg": 24325.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.002378,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.002378,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 26.089,
+        "anomaly_score": 0.006659,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-006507",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-002455",
+    "transaction": {
+      "step": 579,
+      "type": "TRANSFER",
+      "amount": 254564.81,
+      "nameOrig": "C1458012832",
+      "oldbalanceOrg": 254564.81,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1315489161",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 0.0
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 254564.81,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 254564.81,
+            "oldbalanceOrg": 254564.81
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_OFF_HOURS",
+          "description": "Risk-prone transfer type occurred off-hours",
+          "score_floor": 20,
+          "evidence": {
+            "hour": 2,
+            "type": "TRANSFER"
+          },
+          "policy_id": "POL-003"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99999145,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        },
+        {
+          "code": "RF_ANOMALY",
+          "description": "Isolation Forest score exceeds review threshold",
+          "score_floor": 50,
+          "evidence": {
+            "anomaly_score": 0.172342,
+            "threshold": 0.144942
+          },
+          "policy_id": "POL-005"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99999145,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.888,
+        "anomaly_score": 0.172342,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-003",
+        "title": "Off-hours activity",
+        "text": "Transfers or cash-outs between midnight and 05:59 receive additional scrutiny."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      },
+      {
+        "id": "POL-005",
+        "title": "Anomaly escalation",
+        "text": "Transactions above the anomaly threshold require analyst review even when the supervised model is uncertain."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-002455",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_OFF_HOURS",
+        "RF_MODEL_ALERT",
+        "RF_ANOMALY"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-003",
+        "POL-004",
+        "POL-005"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  },
+  {
+    "case_id": "CASE-009285",
+    "transaction": {
+      "step": 373,
+      "type": "CASH_OUT",
+      "amount": 103819.46,
+      "nameOrig": "C1643821900",
+      "oldbalanceOrg": 0.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1775374740",
+      "oldbalanceDest": 425711.53,
+      "newbalanceDest": 529531.0
+    },
+    "assessment": {
+      "risk_score": 70,
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 103819.46,
+            "oldbalanceOrg": 0.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 9.291e-05,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 9.291e-05,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 1.0193,
+        "anomaly_score": -0.031911,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-009285",
+      "risk_label": "HIGH",
+      "recommended_action": "priority_investigation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-007992",
+    "transaction": {
+      "step": 565,
+      "type": "CASH_OUT",
+      "amount": 479106.53,
+      "nameOrig": "C161977247",
+      "oldbalanceOrg": 8660.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C1365321909",
+      "oldbalanceDest": 1021535.25,
+      "newbalanceDest": 1500641.9
+    },
+    "assessment": {
+      "risk_score": 77,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 479106.53,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 479106.53,
+            "oldbalanceOrg": 8660.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.00014749,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.00014749,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 1.6181,
+        "anomaly_score": 0.002135,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-007992",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-005674",
+    "transaction": {
+      "step": 358,
+      "type": "CASH_OUT",
+      "amount": 23850.25,
+      "nameOrig": "C1039465099",
+      "oldbalanceOrg": 23775.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C814900611",
+      "oldbalanceDest": 10446266.0,
+      "newbalanceDest": 10470116.0
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 23850.25,
+            "oldbalanceOrg": 23775.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.00556764,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.00556764,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 61.0825,
+        "anomaly_score": 0.031159,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-005674",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "FP",
+      "dataset_label": 0
+    }
+  },
+  {
+    "case_id": "CASE-003419",
+    "transaction": {
+      "step": 617,
+      "type": "CASH_OUT",
+      "amount": 10000000.0,
+      "nameOrig": "C1677039996",
+      "oldbalanceOrg": 10000000.0,
+      "newbalanceOrig": 0.0,
+      "nameDest": "C454550281",
+      "oldbalanceDest": 0.0,
+      "newbalanceDest": 10000000.0
+    },
+    "assessment": {
+      "risk_score": 100,
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flags": [
+        {
+          "code": "RF_HIGH_VALUE",
+          "description": "Transaction meets high-value review threshold",
+          "score_floor": 35,
+          "evidence": {
+            "amount": 10000000.0,
+            "threshold": 200000
+          },
+          "policy_id": "POL-001"
+        },
+        {
+          "code": "RF_BALANCE_DRAIN",
+          "description": "Transaction consumes at least 75% of origin balance",
+          "score_floor": 45,
+          "evidence": {
+            "amount": 10000000.0,
+            "oldbalanceOrg": 10000000.0
+          },
+          "policy_id": "POL-002"
+        },
+        {
+          "code": "RF_MODEL_ALERT",
+          "description": "Calibrated model score exceeds the review operating point",
+          "score_floor": 70,
+          "evidence": {
+            "model_score": 0.99998892,
+            "operating_threshold": 9.115e-05
+          },
+          "policy_id": "POL-004"
+        }
+      ],
+      "model_signals": {
+        "calibrated_model_score": 0.99998892,
+        "model_operating_threshold": 9.115e-05,
+        "relative_to_threshold": 10970.8602,
+        "anomaly_score": 0.106929,
+        "anomaly_threshold": 0.144942
+      }
+    },
+    "retrieved_policies": [
+      {
+        "id": "POL-001",
+        "title": "High-value review",
+        "text": "Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."
+      },
+      {
+        "id": "POL-002",
+        "title": "Balance depletion",
+        "text": "Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."
+      },
+      {
+        "id": "POL-004",
+        "title": "Model escalation",
+        "text": "Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."
+      }
+    ],
+    "gold": {
+      "case_id": "CASE-003419",
+      "risk_label": "CRITICAL",
+      "recommended_action": "recommend_temporary_hold_and_escalation",
+      "red_flag_codes": [
+        "RF_HIGH_VALUE",
+        "RF_BALANCE_DRAIN",
+        "RF_MODEL_ALERT"
+      ],
+      "policy_ids": [
+        "POL-001",
+        "POL-002",
+        "POL-004"
+      ]
+    },
+    "metadata": {
+      "evaluation_outcome": "TP",
+      "dataset_label": 1
+    }
+  }
+]

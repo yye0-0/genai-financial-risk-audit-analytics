@@ -1,0 +1,64 @@
+{
+  "cases": 6,
+  "hit_at_1": 1.0,
+  "hit_at_3": 1.0,
+  "mrr": 1.0,
+  "details": [
+    {
+      "query": "large high-value transaction requiring enhanced review",
+      "expected": "POL-001",
+      "retrieved": [
+        "POL-001",
+        "POL-005",
+        "POL-004"
+      ],
+      "rank": 1
+    },
+    {
+      "query": "transfer drains most of the available sender balance",
+      "expected": "POL-002",
+      "retrieved": [
+        "POL-002"
+      ],
+      "rank": 1
+    },
+    {
+      "query": "cash-out occurred during overnight off-hours",
+      "expected": "POL-003",
+      "retrieved": [
+        "POL-003",
+        "POL-002"
+      ],
+      "rank": 1
+    },
+    {
+      "query": "model score exceeded the versioned review threshold",
+      "expected": "POL-004",
+      "retrieved": [
+        "POL-004",
+        "POL-005",
+        "POL-001"
+      ],
+      "rank": 1
+    },
+    {
+      "query": "unusual transaction above anomaly detection threshold",
+      "expected": "POL-005",
+      "retrieved": [
+        "POL-005",
+        "POL-001",
+        "POL-004"
+      ],
+      "rank": 1
+    },
+    {
+      "query": "analyst owns the final disposition and documents overrides",
+      "expected": "POL-006",
+      "retrieved": [
+        "POL-006",
+        "POL-005"
+      ],
+      "rank": 1
+    }
+  ]
+}

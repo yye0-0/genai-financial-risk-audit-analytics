@@ -1,0 +1,9 @@
+[
+  {"id":"POL-001","title":"High-value review","text":"Transactions of 200,000 or more require enhanced review. This demo threshold is configurable and is not a real bank policy."},
+  {"id":"POL-002","title":"Balance depletion","text":"Transfers or cash-outs consuming at least 75% of the available origin balance are a red flag."},
+  {"id":"POL-003","title":"Off-hours activity","text":"Transfers or cash-outs between midnight and 05:59 receive additional scrutiny."},
+  {"id":"POL-004","title":"Model escalation","text":"Transactions at or above the versioned model operating threshold enter review. A calibrated score supports prioritisation but does not prove fraud."},
+  {"id":"POL-005","title":"Anomaly escalation","text":"Transactions above the anomaly threshold require analyst review even when the supervised model is uncertain."},
+  {"id":"POL-006","title":"Human accountability","text":"Automated outputs support triage only. An authorised analyst owns disposition, documents evidence, and may override with a reason. Any temporary hold follows approved procedure."}
+]
+

@@ -1,0 +1,5 @@
+provider,prompt_version,latency_ms,json_valid,schema_valid,case_id_agreement,risk_label_agreement,action_agreement,citation_precision,citation_recall,source_path_validity,red_flag_coverage,factual_consistency,completeness,overall
+mock,baseline,0.07420500011600477,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+mock,few_shot,0.08109833318788635,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+mock,grounded_structured,0.07456333338874781,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
+mock,role_constraints,0.07448833318145869,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0

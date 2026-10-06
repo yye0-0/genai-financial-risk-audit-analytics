@@ -1,0 +1,12 @@
+{
+  "provider": "mock",
+  "cases": 60,
+  "prompt_versions": [
+    "baseline",
+    "role_constraints",
+    "few_shot",
+    "grounded_structured"
+  ],
+  "is_real_llm_comparison": false,
+  "interpretation": "Offline contract test only; mock ignores prompt wording"
+}

@@ -1,0 +1,8 @@
+[
+  {"query":"large high-value transaction requiring enhanced review","policy_id":"POL-001"},
+  {"query":"transfer drains most of the available sender balance","policy_id":"POL-002"},
+  {"query":"cash-out occurred during overnight off-hours","policy_id":"POL-003"},
+  {"query":"model score exceeded the versioned review threshold","policy_id":"POL-004"},
+  {"query":"unusual transaction above anomaly detection threshold","policy_id":"POL-005"},
+  {"query":"analyst owns the final disposition and documents overrides","policy_id":"POL-006"}
+]
