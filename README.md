@@ -170,14 +170,6 @@ Do not send real customer identifiers to an external model. The included OpenAI-
 - `artifacts/run_manifest.json`: dataset/code hashes, environment versions and commands.
 - `artifacts/case_audit.sqlite3`: local disposition log, created on first save.
 
-## Resume bullets supported by the current evidence
-
-- Built a leakage-controlled fraud triage pipeline on 6.36M PaySim transactions, comparing calibrated Logistic Regression, gradient boosting, balance-signature ablation, Isolation Forest, and a legacy rule under chronological validation and test splits.
-- Designed a capacity-aware review workflow whose gradient-boosting model captured 4,249 of 4,250 test fraud labels in the top 0.5% of ranked transactions, while an ablation exposed substantial reliance on PaySim's simulator-specific balance-depletion pattern.
-- Developed an evidence-grounded LLM evaluation harness with four prompt strategies, strict structured outputs, 60 stratified cases, policy-citation checks, and a Streamlit investigation dashboard with masked identifiers and append-only analyst audit events.
-
-The second bullet must always retain the PaySim context and ablation caveat. No live-LLM performance number should be added until a real provider run is completed.
-
 ## Repository data policy
 
 The repository includes source code, tests, the small synthetic demo CSV, and
