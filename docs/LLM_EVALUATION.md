@@ -42,3 +42,32 @@ Use one frozen model version, temperature, case order and provider configuration
 
 Blind reviewers should score factual correctness, evidence sufficiency, clarity, calibrated uncertainty, action usefulness and absence of overclaiming. A subset should be double-scored to measure inter-rater agreement. Any LLM judge must be calibrated against these human scores and restricted to narrative-quality criteria; deterministic fields remain deterministically graded.
 
+## Product evaluation runner
+
+New runs default to `artifacts/evaluations/<provider>` and leave the published
+baseline untouched. Use an explicit different output directory per experiment.
+
+```bash
+python -m src.evaluation --provider mock --output-dir artifacts/evaluations/contract
+python -m src.evaluation --provider openai --limit 5 --prompt-version grounded_structured --output-dir artifacts/evaluations/live-smoke
+```
+
+Provider inputs exclude gold and metadata as well as withholding them from
+prompts. Each request records success/failure, latency, returned model version,
+token counts and, if explicitly configured, a token-price estimate. Unknown
+usage or prices produce unknown cost, not zero. Prices are user-supplied USD
+per million tokens; the estimate does not account for unreported failed/retried
+requests or replace the provider invoice.
+
+Manifests record the source case-file hash, selected case IDs, prompt versions,
+attempt/success/schema-valid counts and whether a real provider was requested.
+`is_real_llm_comparison` additionally requires multiple prompt versions and all
+requests to succeed; it does not assert high quality, semantic truth or
+statistical significance. A failed or partial run must be reported as such.
+The small smoke subset is only an integration check.
+
+The application blocks schema-valid briefs when case ID, deterministic label,
+action, source paths or policy IDs fail controls. It does not claim semantic
+entailment. Source-path existence and number membership alone cannot detect
+reversed claims, missing context or invented qualitative conclusions.
+

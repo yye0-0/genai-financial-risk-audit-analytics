@@ -9,6 +9,11 @@ from .config import PATHS
 
 DEFAULT_DB = PATHS.artifacts / "case_audit.sqlite3"
 ALLOWED_STATUSES = {"NEW", "REVIEWING", "ESCALATED", "CLOSED_NO_FRAUD", "CLOSED_CONFIRMED"}
+FEEDBACK_CATEGORIES = {"none", "factual_error", "missing_evidence", "omission", "unclear"}
+
+
+class ConcurrentReviewError(ValueError):
+    """Another reviewer saved this case after it was opened."""
 
 
 def _connect(path: Path = DEFAULT_DB) -> sqlite3.Connection:
@@ -34,30 +39,50 @@ def _connect(path: Path = DEFAULT_DB) -> sqlite3.Connection:
             model_version TEXT
         );
     """)
+    columns = {row["name"] for row in connection.execute("PRAGMA table_info(cases)")}
+    if "reviewed_summary" not in columns:
+        connection.execute("ALTER TABLE cases ADD COLUMN reviewed_summary TEXT NOT NULL DEFAULT ''")
     return connection
 
 
 def get_case(case_id: str, path: Path = DEFAULT_DB) -> dict:
     with _connect(path) as connection:
         row = connection.execute("SELECT * FROM cases WHERE case_id = ?", (case_id,)).fetchone()
-    return dict(row) if row else {"case_id": case_id, "status": "NEW", "analyst_notes": ""}
+    return dict(row) if row else {"case_id": case_id, "status": "NEW", "analyst_notes": "",
+                                 "reviewed_summary": "", "updated_at": ""}
 
 
 def save_disposition(case_id: str, status: str, notes: str, actor: str,
                      dataset_sha256: str, model_version: str,
-                     path: Path = DEFAULT_DB) -> None:
+                     path: Path = DEFAULT_DB, *, reviewed_summary: str = "",
+                     generation: dict | None = None, feedback: str = "none",
+                     expected_updated_at: str | None = None) -> None:
     if status not in ALLOWED_STATUSES:
         raise ValueError(f"Unsupported case status: {status}")
+    if feedback not in FEEDBACK_CATEGORIES:
+        raise ValueError("Unsupported feedback category")
+    if not actor.strip():
+        raise ValueError("A reviewer name is required")
+    if status in {"ESCALATED", "CLOSED_NO_FRAUD", "CLOSED_CONFIRMED"} and not notes.strip():
+        raise ValueError("Record a rationale before escalating or closing a case")
     now = datetime.now(timezone.utc).isoformat()
-    payload = {"status": status, "notes": notes}
     with _connect(path) as connection:
+        connection.execute("BEGIN IMMEDIATE")
+        previous = connection.execute(
+            "SELECT status, updated_at FROM cases WHERE case_id = ?", (case_id,)).fetchone()
+        if expected_updated_at is not None and expected_updated_at != (
+                previous["updated_at"] if previous else ""):
+            raise ConcurrentReviewError("This case changed. Reload it before saving your review.")
+        payload = {"previous_status": previous["status"] if previous else "NEW",
+                   "status": status, "notes": notes, "reviewed_summary": reviewed_summary,
+                   "generation": generation, "feedback": feedback}
         connection.execute("""
-            INSERT INTO cases(case_id, status, analyst_notes, updated_at)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO cases(case_id, status, analyst_notes, updated_at, reviewed_summary)
+            VALUES (?, ?, ?, ?, ?)
             ON CONFLICT(case_id) DO UPDATE SET
               status=excluded.status, analyst_notes=excluded.analyst_notes,
-              updated_at=excluded.updated_at
-        """, (case_id, status, notes, now))
+              updated_at=excluded.updated_at, reviewed_summary=excluded.reviewed_summary
+        """, (case_id, status, notes, now, reviewed_summary))
         connection.execute("""
             INSERT INTO audit_events(case_id, event_time, event_type, actor, payload_json,
                                      dataset_sha256, model_version)

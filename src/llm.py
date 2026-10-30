@@ -32,6 +32,7 @@ class RiskNarrative(BaseModel):
 
 
 class LLMProvider(ABC):
+    last_usage: dict | None = None
     @abstractmethod
     def generate(self, prompt: str, case: dict) -> str: ...
 
@@ -62,19 +63,26 @@ class MockLLM(LLMProvider):
 
 class OpenAICompatibleLLM(LLMProvider):
     def __init__(self, model: str | None = None):
+        if not os.environ.get("OPENAI_API_KEY"):
+            raise RuntimeError("Set OPENAI_API_KEY for the real provider; mock remains available offline")
         try:
             from openai import OpenAI
         except ImportError as exc:
             raise RuntimeError("Install the optional dependency: pip install -e .[llm]") from exc
-        kwargs = {"api_key": os.environ.get("OPENAI_API_KEY")}
+        kwargs = {"api_key": os.environ.get("OPENAI_API_KEY"), "timeout": 60.0, "max_retries": 1}
         if os.environ.get("OPENAI_BASE_URL"):
             kwargs["base_url"] = os.environ["OPENAI_BASE_URL"]
         self.client = OpenAI(**kwargs)
         self.model = model or os.environ.get("LLM_MODEL", "gpt-4.1-mini")
 
     def generate(self, prompt: str, case: dict) -> str:
+        self.last_usage = None
         response = self.client.chat.completions.create(
             model=self.model, temperature=0, messages=[{"role": "user", "content": prompt}])
+        usage = response.usage
+        self.last_usage = {"model": response.model,
+                           "input_tokens": usage.prompt_tokens if usage else None,
+                           "output_tokens": usage.completion_tokens if usage else None}
         return response.choices[0].message.content or ""
 
 
@@ -89,7 +97,9 @@ def get_provider(name: str | None = None) -> LLMProvider:
 
 def generate_narrative(case: dict, version: str = "grounded_structured",
                        provider: LLMProvider | None = None) -> tuple[str, RiskNarrative | None]:
-    raw = (provider or get_provider()).generate(build_prompt(version, case), case)
+    supplied_case = {key: case[key] for key in
+                     ("case_id", "transaction", "assessment", "retrieved_policies")}
+    raw = (provider or get_provider()).generate(build_prompt(version, supplied_case), supplied_case)
     try:
         cleaned = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw.strip())
         parsed = RiskNarrative.model_validate_json(cleaned)
