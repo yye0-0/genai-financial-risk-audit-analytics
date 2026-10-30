@@ -2,6 +2,33 @@
 
 An interview-ready, human-in-the-loop fraud alert prioritisation system built and evaluated on the official Kaggle PaySim file. Conventional models rank transactions; deterministic controls attach traceable red flags; an optional LLM converts supplied evidence into a schema-validated analyst brief. The LLM never owns the fraud decision.
 
+## Product walkthrough and documentation
+
+The workspace now opens directly from a clone using the 60 committed frozen
+cases when the full scored queue is unavailable. This is an outcome-stratified
+walkthrough, not a natural-prevalence production queue. Saved full-test metrics
+are labelled separately. The default mock needs no credentials or model bundle.
+
+```bash
+python -m pip install -r requirements-lock.txt
+python -m streamlit run app.py
+```
+
+Analysts can retain a generated brief across interactions, edit a separate
+reviewed summary, record feedback and a disposition rationale, and export the
+original draft plus review history. Schema checks are followed by deterministic
+case/label/action/source/policy checks; natural-language truth still needs human
+review. Local concurrent edits are detected before saving.
+
+- [中文 PRD: users, priorities, workflow and acceptance](docs/PRD.md)
+- [Quickstart and three-minute demo](docs/QUICKSTART.md)
+- [User-validation plan and blank research templates](docs/USER_VALIDATION.md)
+- [Product decisions and iteration log](docs/PRODUCT_CHANGELOG.md)
+- [Validation evidence and remaining work](docs/PRODUCT_VALIDATION.md)
+
+This is a personal public-data PoC. User interviews, enterprise rollout and a
+live-model comparison are not claimed as completed work.
+
 ## Verified status
 
 - Official PaySim: **6,362,620 transactions**, **8,213 fraud labels**, 0.1291% overall prevalence.
@@ -11,7 +38,7 @@ An interview-ready, human-in-the-loop fraud alert prioritisation system built an
 - Models: Logistic Regression, HistGradientBoosting, balance-signature ablation HGB, Isolation Forest, and the PaySim legacy flag.
 - Probability calibration: Platt scaling on the natural-prevalence validation period.
 - Operating point: fixed on validation at a target 0.5% review capacity.
-- Automated tests: **8 passed**.
+- Original experiment tests: **8 passed**; the expanded product suite is documented in [product validation](docs/PRODUCT_VALIDATION.md).
 - Dashboard: tested through Streamlit's application test runner with no exceptions.
 - LLM status: the strict 60-case harness is complete; current results use a deterministic mock and are explicitly **not a real-LLM comparison**.
 
@@ -109,6 +136,8 @@ The Streamlit workspace includes:
 - policy evidence and strict LLM briefs;
 - analyst status and notes;
 - append-only SQLite disposition events;
+- original AI draft, editable reviewed summary, feedback category and previous status;
+- separate demonstration audit store and optimistic concurrent-edit checks;
 - model version and dataset hash in exported case reports.
 
 The system recommends an authorised temporary hold; it never directly freezes a customer or declares fraud.
@@ -119,10 +148,13 @@ Clone the repository and create a local environment file if a real LLM provider
 will be used:
 
 ```bash
-copy .env.example .env
+cp .env.example .env
 ```
 
 The default `mock` provider needs no credentials. Never commit `.env`.
+The application does not auto-load `.env`: export its values in your shell or
+load them through your IDE/process manager before starting a real provider.
+On Windows use `copy .env.example .env` for the copy step.
 
 Install the verified environment:
 
@@ -156,6 +188,14 @@ python -m src.evaluation --provider openai
 ```
 
 Do not send real customer identifiers to an external model. The included OpenAI-compatible adapter is for approved test data/endpoints only.
+
+New evaluation runs default to `artifacts/evaluations/<provider>` so they do not
+overwrite published experiment results. Start with `--limit 5 --prompt-version
+grounded_structured`, inspect failures, then run a full comparison. Usage and
+model versions are captured when the endpoint returns them. Optional
+`--input-price-per-million` and `--output-price-per-million` prices produce a USD
+estimate; missing usage or prices remain unknown. A configured real provider is
+not itself evidence of a successful comparison. See [the evaluation protocol](docs/LLM_EVALUATION.md).
 
 ## Main artifacts
 

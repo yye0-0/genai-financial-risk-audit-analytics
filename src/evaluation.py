@@ -4,6 +4,9 @@ import argparse
 import json
 import re
 import time
+import math
+from datetime import datetime, timezone
+import hashlib
 from pathlib import Path
 
 import pandas as pd
@@ -95,7 +98,8 @@ def evaluate_response(raw: str, case: dict) -> dict:
                                    ("case_id", "transaction", "assessment", "retrieved_policies")})
     output_numbers = _number_set({"summary": parsed.summary,
                                   "claims": [item.claim for item in parsed.key_evidence]})
-    factual = len(output_numbers & allowed_numbers) / max(1, len(output_numbers))
+    factual = (len(output_numbers & allowed_numbers) / len(output_numbers)
+               if output_numbers else 1.0)
     completeness = sum([
         bool(parsed.summary), bool(parsed.key_evidence), bool(parsed.recommended_actions),
         bool(parsed.uncertainties), flag_coverage == 1,
@@ -113,35 +117,80 @@ def evaluate_response(raw: str, case: dict) -> dict:
     }
 
 
-def run_evaluation(cases: list[dict], provider_name: str = "mock") -> tuple[pd.DataFrame, list[dict]]:
+def estimate_cost(usage: dict, input_price: float | None,
+                  output_price: float | None) -> float | None:
+    """USD estimate using user-supplied prices per million tokens, never guessed."""
+    if any(price is not None and (not math.isfinite(price) or price < 0)
+           for price in (input_price, output_price)):
+        raise ValueError("Token prices must be finite and non-negative")
+    if input_price is None or output_price is None:
+        return None
+    if usage.get("input_tokens") is None or usage.get("output_tokens") is None:
+        return None
+    return (usage["input_tokens"] * input_price + usage["output_tokens"] * output_price) / 1_000_000
+
+
+def run_evaluation(cases: list[dict], provider_name: str = "mock", *,
+                   prompt_versions: tuple[str, ...] = PROMPT_VERSIONS,
+                   input_price: float | None = None,
+                   output_price: float | None = None) -> tuple[pd.DataFrame, list[dict]]:
+    if not cases or not prompt_versions:
+        raise ValueError("At least one case and prompt version are required")
+    estimate_cost({}, input_price, output_price)
+    if any(version not in PROMPT_VERSIONS for version in prompt_versions):
+        raise ValueError("Unknown prompt version")
     provider = get_provider(provider_name)
     rows, outputs = [], []
-    for version in PROMPT_VERSIONS:
+    for version in prompt_versions:
         for case in cases:
             started = time.perf_counter()
             error = None
+            usage = {}
             try:
-                raw = provider.generate(build_prompt(version, case), case)
+                provider_case = {key: case[key] for key in
+                                 ("case_id", "transaction", "assessment", "retrieved_policies")}
+                raw = provider.generate(build_prompt(version, provider_case), provider_case)
+                usage = getattr(provider, "last_usage", None) or {}
             except Exception as exc:
-                raw, error = "", f"{type(exc).__name__}: {exc}"
+                # Provider errors can contain endpoint/header details; retain the type only.
+                raw, error = "", type(exc).__name__
             latency_ms = (time.perf_counter() - started) * 1000
             score = evaluate_response(raw, case)
             rows.append({"prompt_version": version, "case_id": case["case_id"],
                          "provider": provider_name, "latency_ms": latency_ms,
-                         "error": error, **score})
+                         "error": error, "request_succeeded": error is None,
+                         "model": usage.get("model"),
+                         "input_tokens": usage.get("input_tokens"),
+                         "output_tokens": usage.get("output_tokens"),
+                         "estimated_cost_usd": estimate_cost(usage, input_price, output_price),
+                         **score})
             outputs.append({"prompt_version": version, "case_id": case["case_id"],
-                            "provider": provider_name, "raw": raw, "error": error})
+                            "provider": provider_name, "raw": raw, "error": error,
+                            "usage": usage})
     return pd.DataFrame(rows), outputs
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--cases", type=Path, default=PATHS.artifacts / "eval_cases.json")
-    parser.add_argument("--provider", default="mock")
-    parser.add_argument("--output-dir", type=Path, default=PATHS.artifacts)
+    parser.add_argument("--provider", default="mock", choices=("mock", "openai", "openai_compatible"))
+    parser.add_argument("--output-dir", type=Path,
+                        help="Defaults to artifacts/evaluations/<provider>; preserves published results")
+    parser.add_argument("--prompt-version", action="append", choices=PROMPT_VERSIONS)
+    parser.add_argument("--limit", type=int, help="Explicit small-run case limit")
+    parser.add_argument("--input-price-per-million", type=float)
+    parser.add_argument("--output-price-per-million", type=float)
     args = parser.parse_args()
     cases = json.loads(args.cases.read_text(encoding="utf-8"))
-    scores, outputs = run_evaluation(cases, args.provider)
+    if args.limit is not None:
+        if args.limit < 1:
+            parser.error("--limit must be positive")
+        cases = cases[:args.limit]
+    versions = tuple(dict.fromkeys(args.prompt_version or PROMPT_VERSIONS))
+    scores, outputs = run_evaluation(cases, args.provider, prompt_versions=versions,
+                                     input_price=args.input_price_per_million,
+                                     output_price=args.output_price_per_million)
+    args.output_dir = args.output_dir or PATHS.artifacts / "evaluations" / args.provider
     args.output_dir.mkdir(parents=True, exist_ok=True)
     scores.to_csv(args.output_dir / "llm_eval_details.csv", index=False)
     summary = scores.groupby(["provider", "prompt_version"]).mean(numeric_only=True).reset_index()
@@ -149,10 +198,23 @@ def main() -> None:
     (args.output_dir / "llm_outputs.json").write_text(json.dumps(outputs, indent=2), encoding="utf-8")
     manifest = {
         "provider": args.provider, "cases": len(cases),
-        "prompt_versions": list(PROMPT_VERSIONS),
-        "is_real_llm_comparison": args.provider != "mock",
-        "interpretation": ("Real provider prompt comparison" if args.provider != "mock" else
-                           "Offline contract test only; mock ignores prompt wording"),
+        "prompt_versions": list(versions),
+        "model_versions": sorted(scores["model"].dropna().unique().tolist()),
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
+        "case_file_sha256": hashlib.sha256(args.cases.read_bytes()).hexdigest(),
+        "case_ids": [case["case_id"] for case in cases],
+        "requests_attempted": len(scores),
+        "requests_succeeded": int(scores["request_succeeded"].sum()),
+        "schema_valid_outputs": int(scores["schema_valid"].sum()),
+        "input_price_per_million_usd": args.input_price_per_million,
+        "output_price_per_million_usd": args.output_price_per_million,
+        "estimated_total_cost_usd": (float(scores["estimated_cost_usd"].sum())
+                                     if scores["estimated_cost_usd"].notna().all() else None),
+        "is_real_provider_run": args.provider != "mock",
+        "is_real_llm_comparison": (args.provider != "mock" and len(versions) > 1
+                                   and bool(scores["request_succeeded"].all())),
+        "interpretation": ("Real-provider attempt; inspect errors and quality checks" if args.provider != "mock"
+                           else "Offline contract test only; mock ignores prompt wording"),
     }
     (args.output_dir / "llm_eval_manifest.json").write_text(
         json.dumps(manifest, indent=2), encoding="utf-8")

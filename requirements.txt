@@ -5,5 +5,6 @@ pydantic>=2.0
 PyYAML>=6.0
 scikit-learn>=1.3,<1.6
 streamlit>=1.30,<2
+pyarrow>=14,<20
 # Optional for a live model: openai>=1.30
 

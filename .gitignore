@@ -10,6 +10,7 @@ artifacts/*.joblib
 artifacts/scored_transactions.csv
 artifacts/*.sqlite3
 artifacts/demo/
+artifacts/evaluations/
 data/raw/*.csv
 data/raw/*.zip
 data/processed/*.csv

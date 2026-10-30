@@ -1,17 +1,22 @@
 from __future__ import annotations
 
 import json
+import os
+import time
+from pathlib import Path
 
 import joblib
 import pandas as pd
 import streamlit as st
 
-from src.audit_store import ALLOWED_STATUSES, get_case, list_events, save_disposition
+from src.audit_store import (ALLOWED_STATUSES, FEEDBACK_CATEGORIES, get_case,
+                            list_events, save_disposition)
 from src.config import PATHS
 from src.explainability import local_sensitivity
 from src.llm import generate_narrative, get_provider
 from src.rag import retrieve_for_flags
 from src.risk_engine import assess_transaction
+from src.workspace import frozen_case_queue, narrative_control_errors
 
 
 def mask_account(value: object) -> str:
@@ -31,13 +36,30 @@ st.title("GenAI-Enhanced Financial Risk & Audit Analytics")
 st.caption("Human-in-the-loop fraud alert prioritisation on official PaySim. Scores support review; they do not prove fraud.")
 
 required = [PATHS.artifacts / name for name in
-            ("model_metrics.json", "scored_transactions.csv", "model_comparison.csv")]
+            ("model_metrics.json", "model_comparison.csv")]
 if not all(path.exists() for path in required):
-    st.error("Official experiment artifacts are missing. Run the modeling pipeline first.")
+    st.error("Saved experiment metrics are missing. Restore repository artifacts or run the modeling pipeline.")
     st.stop()
 
 metrics = json.loads((PATHS.artifacts / "model_metrics.json").read_text(encoding="utf-8"))
-df = pd.read_csv(PATHS.artifacts / "scored_transactions.csv")
+official_queue = PATHS.artifacts / "scored_transactions.csv"
+sources = ["Frozen-case walkthrough"]
+if official_queue.exists():
+    sources.insert(0, "Official scored queue")
+source = st.sidebar.radio("Case source", sources)
+demo_mode = source == "Frozen-case walkthrough"
+if demo_mode:
+    frozen_path = PATHS.artifacts / "eval_cases.json"
+    if not frozen_path.exists():
+        st.error("Frozen cases are missing. Restore artifacts/eval_cases.json.")
+        st.stop()
+    df = frozen_case_queue(json.loads(frozen_path.read_text(encoding="utf-8")))
+    st.warning("Frozen-case walkthrough: outcome-stratified cases for product demonstration. "
+               "This queue does not represent natural prevalence or the full test ranking.")
+else:
+    df = pd.read_csv(official_queue)
+workspace_db = Path(os.environ.get("WORKSPACE_AUDIT_DB", str(
+    PATHS.artifacts / ("workspace_demo.sqlite3" if demo_mode else "case_audit.sqlite3"))))
 comparison = pd.read_csv(PATHS.artifacts / "model_comparison.csv")
 importance_path = PATHS.artifacts / "feature_importance.csv"
 importance = pd.read_csv(importance_path) if importance_path.exists() else pd.DataFrame()
@@ -54,7 +76,7 @@ def load_model_bundle():
     return joblib.load(PATHS.artifacts / "model_bundle.joblib")
 
 st.success(
-    f"Official PaySim verified: {metrics['dataset']['rows']:,} transactions, "
+    f"Saved official experiment: {metrics['dataset']['rows']:,} transactions, "
     f"{metrics['dataset']['fraud']:,} fraud labels, SHA-256 {dataset_sha[:12]}…"
 )
 
@@ -62,6 +84,7 @@ overview_tab, case_tab, governance_tab = st.tabs(
     ["Portfolio overview", "Case investigation", "Model & LLM governance"])
 
 with overview_tab:
+    st.caption("These are saved full-test experiment results, not metrics computed from the selected walkthrough queue.")
     c1, c2, c3, c4 = st.columns(4)
     c1.metric("Test transactions", f"{champion_metrics['support']:,}")
     c2.metric("Test fraud prevalence", f"{champion_metrics['fraud_count']/champion_metrics['support']:.3%}")
@@ -95,7 +118,10 @@ with overview_tab:
 with case_tab:
     st.subheader("Alert queue")
     evaluation_mode = st.toggle("Evaluation mode (reveals offline labels)", value=False)
-    queue_name = st.radio("Queue", ["Model alerts", "False negatives", "All retained test cases"],
+    queues = ["Model alerts", "All retained test cases"]
+    if evaluation_mode:
+        queues.insert(1, "False negatives")
+    queue_name = st.radio("Queue", queues,
                           horizontal=True)
     if queue_name == "Model alerts":
         visible = df[df["predicted_alert"] == 1]
@@ -103,7 +129,7 @@ with case_tab:
         visible = df[(df["predicted_alert"] == 0) & (df["isFraud"] == 1)]
     else:
         visible = df
-    visible = visible.sort_values("champion_score", ascending=False)
+    visible = visible.sort_values("champion_score", ascending=False, kind="stable")
     table = visible[["step", "type", "amount", "nameOrig", "nameDest",
                      "champion_score", "anomaly_score", "predicted_alert"]].head(500).copy()
     table["nameOrig"] = table["nameOrig"].map(mask_account)
@@ -196,38 +222,85 @@ with case_tab:
                                      format_func=lambda x: "Offline contract mock" if x == "mock" else "OpenAI-compatible API")
     if st.button("Generate analyst brief", type="primary"):
         try:
-            raw, parsed = generate_narrative(case, version, get_provider(provider_name))
-            if parsed is None:
-                st.error("Output rejected by the strict schema.")
-            else:
-                st.success("Output passed strict schema validation.")
-                st.write(parsed.summary)
-                st.markdown("**Evidence**")
-                for item in parsed.key_evidence:
-                    st.markdown(f"- {item.claim}  \n  Sources: `{', '.join(item.source_paths)}`")
-                st.markdown("**Uncertainties**")
-                for item in parsed.uncertainties:
-                    st.markdown(f"- {item}")
-            with st.expander("Raw generated output"):
-                st.code(raw, language="json")
+            provider = get_provider(provider_name)
+            started = time.perf_counter()
+            raw, parsed = generate_narrative(case, version, provider)
+            errors = narrative_control_errors(parsed, case) if parsed else ["Strict schema validation failed"]
+            generation = {"provider": provider_name, "prompt_version": version,
+                          "is_mock": provider_name == "mock", "raw": raw,
+                          "parsed": parsed.model_dump() if parsed else None,
+                          "control_errors": errors,
+                          "latency_ms": (time.perf_counter() - started) * 1000,
+                          "usage": getattr(provider, "last_usage", None)}
+            st.session_state[f"generation:{source}:{case_id}"] = generation
+            if not errors:
+                st.session_state[f"summary:{source}:{case_id}"] = parsed.summary
         except Exception as exc:
-            st.error(str(exc))
+            # Invalidate any earlier draft after a failed new request.
+            st.session_state.pop(f"generation:{source}:{case_id}", None)
+            message = str(exc) if isinstance(exc, RuntimeError) else type(exc).__name__
+            st.error(f"Generation failed: {message}. Check provider configuration and try again.")
+
+    generation = st.session_state.get(f"generation:{source}:{case_id}")
+    if generation:
+        st.caption(f"{'Offline mock' if generation['is_mock'] else 'Real provider'} · "
+                   f"{generation['prompt_version']} · {generation['latency_ms']:.0f} ms")
+        if generation["control_errors"]:
+            st.error("Draft rejected: " + "; ".join(generation["control_errors"]))
+        else:
+            parsed_brief = generation["parsed"]
+            st.success("Schema and deterministic controls passed. Check every claim before use.")
+            st.write(parsed_brief["summary"])
+            st.markdown("**Evidence**")
+            for item in parsed_brief["key_evidence"]:
+                st.write(item["claim"])
+                st.caption("Sources: " + ", ".join(item["source_paths"]))
+            st.markdown("**Uncertainties**")
+            for item in parsed_brief["uncertainties"]:
+                st.write(item)
+        with st.expander("Original generated output and run details"):
+            st.json(generation)
 
     st.markdown("#### Human disposition and audit trail")
-    current = get_case(case_id)
+    current = get_case(case_id, path=workspace_db)
     statuses = sorted(ALLOWED_STATUSES)
     status = st.selectbox("Case status", statuses,
-                          index=statuses.index(current["status"]) if current["status"] in statuses else 0)
+                          index=statuses.index(current["status"]) if current["status"] in statuses else 0,
+                          key=f"status:{source}:{case_id}")
+    reviewer = st.text_input("Reviewer name", value="demo_analyst", key=f"reviewer:{source}:{case_id}")
+    summary_key = f"summary:{source}:{case_id}"
+    if summary_key not in st.session_state:
+        st.session_state[summary_key] = current.get("reviewed_summary", "")
+    reviewed_summary = st.text_area("Reviewed summary", key=summary_key,
+                                   placeholder="Edit the AI draft or write an evidence-based summary manually.")
     notes = st.text_area("Analyst notes", value=current.get("analyst_notes", ""),
+                         key=f"notes:{source}:{case_id}",
                          placeholder="Record evidence reviewed and the reason for the disposition.")
+    feedback = st.selectbox("Draft feedback", sorted(FEEDBACK_CATEGORIES),
+                            index=sorted(FEEDBACK_CATEGORIES).index("none"),
+                            key=f"feedback:{source}:{case_id}")
+    revision_key = f"revision:{source}:{case_id}"
+    if revision_key not in st.session_state:
+        st.session_state[revision_key] = current["updated_at"]
     if st.button("Save disposition"):
-        save_disposition(case_id, status, notes, "demo_analyst", dataset_sha, model_version)
-        st.success("Disposition appended to the audit trail.")
-    events = list_events(case_id)
+        try:
+            save_disposition(case_id, status, notes, reviewer, dataset_sha, model_version,
+                             path=workspace_db, reviewed_summary=reviewed_summary,
+                             generation=generation, feedback=feedback,
+                             expected_updated_at=st.session_state[revision_key])
+            st.session_state[revision_key] = get_case(case_id, path=workspace_db)["updated_at"]
+            st.success("Review, draft provenance and feedback appended to the audit trail.")
+        except ValueError as exc:
+            st.error(str(exc))
+    if st.button("Reload saved review"):
+        for prefix in ("revision", "status", "notes", "summary", "feedback", "generation"):
+            st.session_state.pop(f"{prefix}:{source}:{case_id}", None)
+        st.rerun()
+    events = list_events(case_id, path=workspace_db)
     if events:
         st.dataframe(pd.DataFrame(events), use_container_width=True, hide_index=True)
     report = {**case, "audit_events": events, "model_version": model_version,
-              "dataset_sha256": dataset_sha}
+              "dataset_sha256": dataset_sha, "case_source": source}
     st.download_button("Download case report", json.dumps(report, indent=2),
                        file_name=f"{case_id}.json", mime="application/json")
     with st.expander("Technical and evaluation-only details"):
