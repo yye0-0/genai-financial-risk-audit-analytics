@@ -1,6 +1,6 @@
 # GenAI-Enhanced Financial Risk & Audit Analytics
 
-An interview-ready, human-in-the-loop fraud alert prioritisation system built and evaluated on the official Kaggle PaySim file. Conventional models rank transactions; deterministic controls attach traceable red flags; an optional LLM converts supplied evidence into a schema-validated analyst brief. The LLM never owns the fraud decision.
+An interview-ready, human-in-the-loop fraud alert prioritisation and evidence-grounded investigation system built and evaluated on the official Kaggle PaySim file. Conventional models rank transactions; deterministic controls attach traceable red flags; a bounded Agent collects only allow-listed evidence; an optional LLM converts supplied evidence into a schema-validated analyst brief. The LLM never owns the fraud decision.
 
 ## Verified status
 
@@ -11,9 +11,10 @@ An interview-ready, human-in-the-loop fraud alert prioritisation system built an
 - Models: Logistic Regression, HistGradientBoosting, balance-signature ablation HGB, Isolation Forest, and the PaySim legacy flag.
 - Probability calibration: Platt scaling on the natural-prevalence validation period.
 - Operating point: fixed on validation at a target 0.5% review capacity.
-- Automated tests: **8 passed**.
+- Automated tests: **11 passed**.
 - Dashboard: tested through Streamlit's application test runner with no exceptions.
 - LLM status: the strict 60-case harness is complete; current results use a deterministic mock and are explicitly **not a real-LLM comparison**.
+- Investigation status: a synthetic, three-case benchmark compares a fixed workflow against a bounded Agent on required evidence collection, safety gates, and tool cost. It is a workflow test, **not** a production AML claim.
 
 ## System design
 
@@ -34,6 +35,7 @@ Official PaySim CSV
        policy grounding / TF-IDF retrieval
                │
        strict structured LLM narrative
+       + bounded evidence investigation Agent
                │
        Streamlit investigation workspace
        + SQLite disposition audit trail
@@ -83,6 +85,14 @@ Automated checks include JSON validity, strict-schema validity, case/label/actio
 The current mock scores 1.0 because it copies authoritative case fields. This is a **contract test only**. It does not establish that any prompt is superior. A valid prompt comparison requires an approved live or local model and is blocked until such a provider is configured.
 
 The six-query TF-IDF policy retrieval smoke test achieves Hit@1, Hit@3, and MRR of 1.0. The set is deliberately tiny and must not be presented as a broad RAG benchmark. Deterministic rule-to-policy ID lookup remains the safer path when a rule already knows its controlling policy.
+
+## Bounded investigation Agent
+
+The Agent is deliberately constrained. It can call only `get_case_context`, `get_account_history`, `get_counterparty_profile`, `get_network_snapshot`, and `get_policy_requirements`; all are read-only, return structured evidence, and have a hard five-tool budget. It has no unrestricted SQL/Cypher, external-network, disposition, account-freeze, or SAR-submission capability.
+
+The fixed-workflow baseline calls every tool. The bounded Agent selects tools from the allow-list based on evidence needs, records the full trace, and stops at the budget. The included offline planner makes the demo reproducible; a live model planner can be introduced only behind the same typed decision and guardrails. See [the Agent evaluation guide](docs/AGENT_EVALUATION.md).
+
+An Agent does not require a locally deployed open-weight LLM. Its core is the bounded state machine, typed tools, evidence validation, and human approval gate. The default provider is deterministic and credential-free. For a real comparison, the existing OpenAI-compatible adapter can point to an approved hosted endpoint, including DeepSeek-compatible endpoints, through `OPENAI_BASE_URL` and `LLM_MODEL`. This repository does not download or self-host a full DeepSeek model; a future local experiment should begin with a small quantized distill model and be reported separately.
 
 ## Risk scoring and explainability
 
@@ -144,6 +154,7 @@ python -m src.modeling --data data/raw/PS_20174392719_1491204439457_log.csv
 python -m src.pipeline --cases 60
 python scripts/evaluate_retrieval.py
 python -m src.evaluation --provider mock
+python -m src.agent_evaluation
 python -m pytest -q
 streamlit run app.py
 ```

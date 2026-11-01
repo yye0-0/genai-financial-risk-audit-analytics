@@ -1,4 +1,5 @@
 import json
+from pathlib import Path
 
 import pandas as pd
 import pytest
@@ -6,6 +7,9 @@ import pytest
 from src.audit_store import get_case, list_events, save_disposition
 from src.data import clean_transactions, generate_demo_data
 from src.evaluation import evaluate_response
+from src.agent_evaluation import evaluate_strategies
+from src.investigation import attach_investigation, run_investigation
+from src.tool_planner import LLMToolPlanner
 from src.features import MODEL_FEATURES, build_features
 from src.llm import MockLLM, RiskNarrative
 from src.prompts import build_prompt
@@ -89,4 +93,40 @@ def test_audit_store_appends_events(tmp_path):
     events = list_events("CASE-1", db)
     assert len(events) == 1
     assert events[0]["payload"]["notes"] == "Checked transaction"
+
+
+def test_bounded_agent_collects_required_evidence_with_fewer_tools_for_low_case():
+    cases = json.loads((Path(__file__).parents[1] / "data" / "investigation_cases.json").read_text())
+    critical, low, high = cases
+    critical_run = run_investigation(critical, "bounded_agent")
+    low_fixed = run_investigation(low, "fixed_workflow")
+    low_agent = run_investigation(low, "bounded_agent")
+    assert set(critical["investigation_gold"]["required_tools"]) == {
+        item.tool_name for item in critical_run.evidence if item.status == "available"
+    }
+    assert len(low_agent.tool_calls) < len(low_fixed.tool_calls)
+    assert low_agent.tool_calls == ["get_case_context", "get_account_history", "get_policy_requirements"]
+    assert set(high["investigation_gold"]["required_tools"]) == {
+        item.tool_name for item in run_investigation(high, "bounded_agent").evidence if item.status == "available"
+    }
+
+
+def test_agent_evaluation_and_narrative_use_only_collected_evidence():
+    cases = json.loads((Path(__file__).parents[1] / "data" / "investigation_cases.json").read_text())
+    details, summary = evaluate_strategies(cases)
+    assert (details["unsafe_close"] == 0).all()
+    assert (summary["task_success_rate"] == 1).all()
+    case = attach_investigation(cases[0], run_investigation(cases[0]))
+    raw = MockLLM().generate(build_prompt("grounded_structured", case), case)
+    assert evaluate_response(raw, case)["source_path_validity"] == 1
+
+
+def test_live_planner_rejects_an_unapproved_tool_before_execution():
+    class BadPlanner:
+        def generate(self, prompt, case):
+            return '{"next_tool":"run_sql","reason":"query everything"}'
+
+    cases = json.loads((Path(__file__).parents[1] / "data" / "investigation_cases.json").read_text())
+    with pytest.raises(ValueError, match="non-allow-listed"):
+        run_investigation(cases[0], planner=LLMToolPlanner(BadPlanner()))
 

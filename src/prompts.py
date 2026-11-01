@@ -18,6 +18,10 @@ def build_prompt(version: str, case: dict) -> str:
         raise ValueError(f"Unknown prompt version: {version}")
     prompt_case = {key: case[key] for key in
                    ("case_id", "transaction", "assessment", "retrieved_policies")}
+    # The Agent's tool results are part of the allowed evidence, not hidden
+    # reasoning. They retain their tool IDs and upstream source paths.
+    if "investigation_evidence" in case:
+        prompt_case["investigation_evidence"] = case["investigation_evidence"]
     evidence = json.dumps(prompt_case, indent=2, sort_keys=True)
     base = f"Explain the transaction risk.\nCASE:\n{evidence}"
     if version == "baseline":

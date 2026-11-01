@@ -92,7 +92,8 @@ def evaluate_response(raw: str, case: dict) -> dict:
     flag_coverage = 1.0 if not required_flags else len(covered_flags) / len(required_flags)
 
     allowed_numbers = _number_set({key: case[key] for key in
-                                   ("case_id", "transaction", "assessment", "retrieved_policies")})
+                                   ("case_id", "transaction", "assessment", "retrieved_policies",
+                                    "investigation_evidence") if key in case})
     output_numbers = _number_set({"summary": parsed.summary,
                                   "claims": [item.claim for item in parsed.key_evidence]})
     factual = len(output_numbers & allowed_numbers) / max(1, len(output_numbers))

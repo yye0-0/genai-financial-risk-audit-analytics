@@ -1,0 +1,37 @@
+[
+  {
+    "case_id": "AML-DEMO-001",
+    "transaction": {"step": 2, "type": "TRANSFER", "amount": 248000, "oldbalanceOrg": 260000, "nameOrig": "C-DEMO-001", "nameDest": "C-DEMO-900"},
+    "assessment": {"risk_score": 82, "risk_label": "CRITICAL", "recommended_action": "recommend_temporary_hold_and_escalation", "red_flags": [{"code": "RF_HIGH_VALUE", "policy_id": "POL-001", "evidence": {"amount": 248000, "threshold": 200000}}, {"code": "RF_BALANCE_DRAIN", "policy_id": "POL-002", "evidence": {"amount": 248000, "oldbalanceOrg": 260000}}, {"code": "RF_MODEL_ALERT", "policy_id": "POL-004", "evidence": {"model_score": 0.91}}]},
+    "retrieved_policies": [{"id": "POL-001", "title": "High-value review", "text": "Review the transaction and retain traceable evidence."}, {"id": "POL-002", "title": "Balance-drain review", "text": "Investigate material outflows and beneficiary context."}, {"id": "POL-004", "title": "Model alert triage", "text": "A score is a triage signal and requires human review."}],
+    "investigation_context": {
+      "account_history": {"window_days": 30, "outbound_count": 31, "amount_vs_baseline_ratio": 5.8, "new_counterparties": 9},
+      "counterparty_profile": {"beneficiary_age_days": 1, "inbound_accounts_24h": 17, "previous_alerts": 3},
+      "network_snapshot": {"hop_limit": 2, "shared_beneficiaries": 4, "rapid_fan_out_detected": true}
+    },
+    "investigation_gold": {"required_tools": ["get_case_context", "get_account_history", "get_counterparty_profile", "get_network_snapshot", "get_policy_requirements"]},
+    "gold": {"case_id": "AML-DEMO-001", "risk_label": "CRITICAL", "recommended_action": "recommend_temporary_hold_and_escalation", "red_flag_codes": ["RF_HIGH_VALUE", "RF_BALANCE_DRAIN", "RF_MODEL_ALERT"], "policy_ids": ["POL-001", "POL-002", "POL-004"]}
+  },
+  {
+    "case_id": "AML-DEMO-002",
+    "transaction": {"step": 318, "type": "PAYMENT", "amount": 240, "oldbalanceOrg": 41000, "nameOrig": "C-DEMO-002", "nameDest": "M-DEMO-101"},
+    "assessment": {"risk_score": 18, "risk_label": "LOW", "recommended_action": "allow_with_monitoring", "red_flags": []},
+    "retrieved_policies": [],
+    "investigation_context": {"account_history": {"window_days": 30, "outbound_count": 28, "amount_vs_baseline_ratio": 0.9, "new_counterparties": 0}},
+    "investigation_gold": {"required_tools": ["get_case_context", "get_account_history", "get_policy_requirements"]},
+    "gold": {"case_id": "AML-DEMO-002", "risk_label": "LOW", "recommended_action": "allow_with_monitoring", "red_flag_codes": [], "policy_ids": []}
+  },
+  {
+    "case_id": "AML-DEMO-003",
+    "transaction": {"step": 148, "type": "TRANSFER", "amount": 63000, "oldbalanceOrg": 112000, "nameOrig": "C-DEMO-003", "nameDest": "C-DEMO-887"},
+    "assessment": {"risk_score": 54, "risk_label": "HIGH", "recommended_action": "priority_investigation", "red_flags": [{"code": "RF_MODEL_ALERT", "policy_id": "POL-004", "evidence": {"model_score": 0.68}}]},
+    "retrieved_policies": [{"id": "POL-004", "title": "Model alert triage", "text": "A score is a triage signal and requires human review."}],
+    "investigation_context": {
+      "account_history": {"window_days": 30, "outbound_count": 4, "amount_vs_baseline_ratio": 2.1, "new_counterparties": 1},
+      "counterparty_profile": {"beneficiary_age_days": 400, "inbound_accounts_24h": 1, "previous_alerts": 0},
+      "network_snapshot": {"hop_limit": 2, "shared_beneficiaries": 0, "rapid_fan_out_detected": false}
+    },
+    "investigation_gold": {"required_tools": ["get_case_context", "get_account_history", "get_counterparty_profile", "get_network_snapshot", "get_policy_requirements"]},
+    "gold": {"case_id": "AML-DEMO-003", "risk_label": "HIGH", "recommended_action": "priority_investigation", "red_flag_codes": ["RF_MODEL_ALERT"], "policy_ids": ["POL-004"]}
+  }
+]

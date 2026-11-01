@@ -42,17 +42,24 @@ class MockLLM(LLMProvider):
     def generate(self, prompt: str, case: dict) -> str:
         assessment = case["assessment"]
         flags = assessment["red_flags"]
+        evidence = [
+            {"claim": f"{flag['code']}: {json.dumps(flag['evidence'], sort_keys=True)}",
+             "source_paths": [f"assessment.red_flags.{index}.evidence"]}
+            for index, flag in enumerate(flags)
+        ] or [{"claim": f"Risk score is {assessment['risk_score']}.",
+               "source_paths": ["assessment.risk_score"]}]
+        for index, item in enumerate(case.get("investigation_evidence", [])):
+            if item.get("status") == "available":
+                evidence.append({
+                    "claim": f"{item['tool_name']} returned structured evidence for review.",
+                    "source_paths": [f"investigation_evidence.{index}.payload"],
+                })
         out = {
             "case_id": case["case_id"],
             "risk_label": assessment["risk_label"],
             "summary": (f"Risk engine classified this transaction as {assessment['risk_label']} "
                         f"with score {assessment['risk_score']}; this is a triage signal, not proof of fraud."),
-            "key_evidence": [
-                {"claim": f"{flag['code']}: {json.dumps(flag['evidence'], sort_keys=True)}",
-                 "source_paths": [f"assessment.red_flags.{index}.evidence"]}
-                for index, flag in enumerate(flags)
-            ] or [{"claim": f"Risk score is {assessment['risk_score']}.",
-                   "source_paths": ["assessment.risk_score"]}],
+            "key_evidence": evidence,
             "recommended_actions": [assessment["recommended_action"]],
             "policy_citations": sorted({f["policy_id"] for f in flags}),
             "uncertainties": ["No device, identity, counterparty history, or analyst disposition was supplied."],

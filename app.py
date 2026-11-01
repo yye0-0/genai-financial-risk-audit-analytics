@@ -9,6 +9,7 @@ import streamlit as st
 from src.audit_store import ALLOWED_STATUSES, get_case, list_events, save_disposition
 from src.config import PATHS
 from src.explainability import local_sensitivity
+from src.investigation import run_investigation
 from src.llm import generate_narrative, get_provider
 from src.rag import retrieve_for_flags
 from src.risk_engine import assess_transaction
@@ -187,6 +188,19 @@ with case_tab:
             st.markdown(f"**{policy['id']} — {policy['title']}**")
             st.write(policy["text"])
 
+    with st.expander("Bounded evidence collection"):
+        st.caption(
+            "The investigation workflow has a five-tool, read-only budget. PaySim does not contain "
+            "customer history or network context, so unavailable evidence is shown rather than inferred."
+        )
+        agent_run = run_investigation(case, "bounded_agent")
+        st.dataframe(pd.DataFrame([item.to_dict() for item in agent_run.evidence]),
+                     use_container_width=True, hide_index=True)
+        st.caption(
+            f"Called {len(agent_run.tool_calls)} allow-listed tools; stopped because "
+            f"{agent_run.stopped_reason}."
+        )
+
     st.markdown("#### AI-assisted analyst brief")
     st.caption("The LLM can summarise supplied evidence but cannot change the deterministic label or disposition the case.")
     with st.expander("Generation settings"):
@@ -256,4 +270,11 @@ with governance_tab:
         st.dataframe(pd.read_csv(summary_path), use_container_width=True, hide_index=True)
     else:
         st.warning("LLM evaluation has not been run for the current cases.")
+    st.subheader("Investigation strategy evaluation")
+    agent_summary_path = PATHS.artifacts / "agent_eval_summary.csv"
+    if agent_summary_path.exists():
+        st.caption("Synthetic workflow benchmark only; it is not a production AML performance result.")
+        st.dataframe(pd.read_csv(agent_summary_path), use_container_width=True, hide_index=True)
+    else:
+        st.info("Run `python -m src.agent_evaluation` to generate the bounded-Agent comparison.")
 
