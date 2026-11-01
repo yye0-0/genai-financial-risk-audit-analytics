@@ -8,6 +8,14 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
+try:
+    from dotenv import load_dotenv
+except ImportError:  # Keeps imports usable for source-only inspection.
+    load_dotenv = None
+
+if load_dotenv is not None:
+    load_dotenv()
+
 from .prompts import build_prompt
 
 

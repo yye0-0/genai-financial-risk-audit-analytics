@@ -100,7 +100,7 @@ Run one synthetic investigation without any model credentials:
 python scripts/run_investigation.py --case AML-DEMO-001
 ```
 
-To let an approved OpenAI-compatible endpoint choose the next tool, install the optional dependency, set `OPENAI_API_KEY`, `OPENAI_BASE_URL`, and `LLM_MODEL`, then run:
+To let an approved OpenAI-compatible endpoint choose the next tool, copy `.env.example` to `.env`, set `OPENAI_API_KEY`, `OPENAI_BASE_URL`, and `LLM_MODEL`, then run:
 
 ```bash
 python scripts/run_investigation.py --case AML-DEMO-001 --planner llm --provider openai
