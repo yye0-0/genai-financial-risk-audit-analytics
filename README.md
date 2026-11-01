@@ -94,6 +94,18 @@ The fixed-workflow baseline calls every tool. The bounded Agent selects tools fr
 
 An Agent does not require a locally deployed open-weight LLM. Its core is the bounded state machine, typed tools, evidence validation, and human approval gate. The default provider is deterministic and credential-free. For a real comparison, the existing OpenAI-compatible adapter can point to an approved hosted endpoint, including DeepSeek-compatible endpoints, through `OPENAI_BASE_URL` and `LLM_MODEL`. This repository does not download or self-host a full DeepSeek model; a future local experiment should begin with a small quantized distill model and be reported separately.
 
+Run one synthetic investigation without any model credentials:
+
+```bash
+python scripts/run_investigation.py --case AML-DEMO-001
+```
+
+To let an approved OpenAI-compatible endpoint choose the next tool, install the optional dependency, set `OPENAI_API_KEY`, `OPENAI_BASE_URL`, and `LLM_MODEL`, then run:
+
+```bash
+python scripts/run_investigation.py --case AML-DEMO-001 --planner llm --provider openai
+```
+
 ## Risk scoring and explainability
 
 Risk controls no longer add correlated signals together. The model, policy rules, and anomaly model independently set a priority floor; the maximum determines the triage score. This avoids counting an origin-balance pattern once inside the classifier and again as additive rule points.
